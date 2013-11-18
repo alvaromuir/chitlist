@@ -1,5 +1,4 @@
 
-
 require 'spec_helper'
 
 feature 'Creating Projects' do
@@ -13,5 +12,13 @@ feature 'Creating Projects' do
     click_button 'Create Project'
     
     expect(page).to have_content('Project has been created.')
+  
+    project = Project.where(name: "Work Project").first
+
+    expect(page.current_url).to eql(project_url(project))
+
+    title = "Work Project - Projects - Chitlist"
+    expect(page).to have_title(title)
+
   end
 end
