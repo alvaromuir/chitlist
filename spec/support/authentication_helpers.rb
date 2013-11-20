@@ -8,8 +8,8 @@ module AuthenticationHelpers
   end
 end
 
-RSpec.configure do |c|
-  c.include AuthenticationHelpers, type: :feature
+RSpec.configure do |config|
+  config.include AuthenticationHelpers, type: :feature
 end
 
 module AuthHelpers
@@ -18,6 +18,6 @@ module AuthHelpers
   end
 end
 
-RSpec.configure do |c|
-  c.include AuthHelpers, type: :controller
+RSpec.configure do |config|
+  config.include AuthHelpers, type: :controller
 end
