@@ -18,15 +18,35 @@ class TasksController < ApplicationController
     end
   end
 
-  # def show
-  #   @task = @project.tasks.build(task_params)
-  # end
+  def show
+    # see :set_task
+  end
+
+  def edit
+    # see :set_task
+  end
+
+  def update
+    if @task.update(task_params)
+      flash[:notice] = 'Task has been updated.'
+      redirect_to [@project, @task]
+    else
+      flash[:alert] = 'Task has not been updated.'
+      render action: 'edit'
+    end
+  end
+
+  def destroy
+    @task.destroy
+    flash[:notice] = 'Task has been deleted.'
+    redirect_to @project
+  end
 
   private
     def task_params
       params.require(:task).permit(:title, :description)
     end
-    
+
     def set_project
       @project = Project.find(params[:project_id])
     end
