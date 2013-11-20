@@ -5,9 +5,11 @@ require 'spec_helper'
 
 feature "Deleting tasks" do
   let!(:project) { FactoryGirl.create(:project) }
-  let!(:task) { FactoryGirl.create(:task, project: project) }
+  let!(:user) { FactoryGirl.create(:user) }
+  let!(:task) { FactoryGirl.create(:task, project: project, user: user) }
 
   before do
+    sign_in_as!(user)
     visit '/'
     click_link project.name
     click_link task.title

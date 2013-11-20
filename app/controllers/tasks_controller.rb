@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_project
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :require_signin!, except: [:show, :index]
   
   def new
     @task = @project.tasks.build
@@ -8,6 +9,7 @@ class TasksController < ApplicationController
 
   def create
     @task = @project.tasks.build(task_params)
+    @task.user = current_user
 
     if @task.save
       flash[:notice] = 'Task has been created.'
@@ -54,4 +56,18 @@ class TasksController < ApplicationController
     def set_task
       @task = @project.tasks.find(params[:id])
     end
+
+    def require_signin!
+      if current_user.nil?
+        flash[:error] = "You need to sign in or sign up before continuing."
+        redirect_to signin_url
+      end
+    end
+
+    def current_user
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    end
+
+    helper_method :require_signin!
+    helper_method :current_user
 end

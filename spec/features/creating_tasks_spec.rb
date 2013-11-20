@@ -4,10 +4,20 @@ require 'spec_helper'
 
 feature "Creating Tasks" do
   before do
-    FactoryGirl.create(:project, name: "Weekend Project: ToDo App")
+    project = FactoryGirl.create(:project)
+    user = FactoryGirl.create(:user)
 
     visit '/'
-    click_link 'Weekend Project'
+    click_link project.name
+    click_link 'New Task'
+    message = 'You need to sign in or sign up before continuing.'
+    expect(page).to have_content(message)
+
+    fill_in 'Name', with: user.name
+    fill_in 'Password', with: user.password
+    click_button 'Sign in'
+
+    click_link project.name
     click_link 'New Task'
   end
 
@@ -17,6 +27,10 @@ feature "Creating Tasks" do
     click_button 'Create Task'
 
     expect(page).to have_content('Task has been created.')
+
+    within '#task #author' do
+      expect(page).to have_content("Created by someone@example.com")
+    end
   end
 
   scenario 'Creating a task without valid attributes fails' do 
