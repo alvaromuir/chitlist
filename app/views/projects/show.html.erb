@@ -8,3 +8,12 @@
 %>
 
 <%= link_to "New Task", new_project_task_path(@project) %>
+
+<ul id='tasks'>
+  <% @project.tasks.each do |task| %>
+  <li>
+    @<%= task.id %> -
+    <%= link_to task.title, [@project, task] %>
+  </li>
+  <% end %>
+</ul>
