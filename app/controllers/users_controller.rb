@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
-   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @users = User.all
+  end
 
   def new
     @user = User.new
@@ -12,6 +16,7 @@ class UsersController < ApplicationController
       flash[:notice] = "You have signed up successfully."
       redirect_to projects_path
     else
+      flash.now[:alert] = "Error in signing up."
       render :new
     end
   end
@@ -25,7 +30,6 @@ class UsersController < ApplicationController
   end
   
   def update
-    # see set_user
     if @user.update(user_params)
       flash[:notice] = "Profile has been updated."
       redirect_to projects_path
@@ -38,6 +42,7 @@ class UsersController < ApplicationController
   private
     def user_params
       params.require(:user).permit(:name,
+                                  :email, 
                                   :password,
                                   :password_confirmation)
     end

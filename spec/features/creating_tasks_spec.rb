@@ -29,7 +29,7 @@ feature "Creating Tasks" do
     expect(page).to have_content('Task has been created.')
 
     within '#task #author' do
-      expect(page).to have_content("Created by someone@example.com")
+      expect(page).to have_content("Created by #{@email}")
     end
   end
 
