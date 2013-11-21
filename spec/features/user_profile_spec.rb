@@ -15,6 +15,7 @@ end
 feature "Editing Users" do
   scenario "Updating a project" do
     user = FactoryGirl.create(:user)
+    sign_in_as!(user)
     visit user_path(user)
     click_link "Edit Profile"
     fill_in "Username", with: "new_username"
