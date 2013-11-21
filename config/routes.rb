@@ -8,4 +8,8 @@ Chitlist::Application.routes.draw do
   end
 
   resources :users
+
+  namespace :admin do
+    resources :users
+  end
 end
