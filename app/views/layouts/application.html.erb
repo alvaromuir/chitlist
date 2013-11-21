@@ -14,8 +14,15 @@
 </head>
 <body>
 <nav>
-  <%= link_to "Sign up", new_user_path %>
-  <%= link_to "Sign in", signin_path %>
+  <% if current_user %>
+    Signed in as <%= current_user.email %>
+    <% admins_only do %>
+      <%= link_to "Admin", admin_root_path %>
+    <% end %>
+  <% else %>
+    <%= link_to "Sign up", new_user_path %>
+    <%= link_to "Sign in", signin_path %>
+  <% end %>
 </nav>
 
 <% flash.each do |key, value| %>
