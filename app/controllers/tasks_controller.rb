@@ -1,7 +1,8 @@
 class TasksController < ApplicationController
+  before_action :require_signin!
   before_action :set_project
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  before_action :require_signin!
+  before_action :authorize_create!, only: [:new, :create]
   
   def new
     @task = @project.tasks.build
@@ -59,4 +60,12 @@ class TasksController < ApplicationController
     def set_task
       @task = @project.tasks.find(params[:id])
     end
+
+    def authorize_create!
+      if !current_user.admin? && cannot?("create tasks".to_sym, @project)
+        flash[:alert] = "You cannot create tasks on this project."
+        redirect_to @project
+      end
+    end
+
 end

@@ -16,4 +16,27 @@ describe TasksController do
       expect(flash[:alert]).to eql("The project you were looking for could not be found.")
     end 
   end
+
+  context "with permission to view the project" do
+    before do
+      sign_in(user)
+      define_permission!(user, "view", project)
+    end
+
+    def cannot_create_tasks!
+      response.should redirect_to(project)
+      message = 'You cannot create tasks on this project.'
+      flash[:alert].should eql(message)
+    end
+
+    it "cannot begin to create a task" do
+      get :new, project_id: project.id
+      cannot_create_tasks!
+    end
+
+    it "cannot create a task without permission" do
+      post :create, project_id: project.id
+      cannot_create_tasks!
+    end
+  end
 end
