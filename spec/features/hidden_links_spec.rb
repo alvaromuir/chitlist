@@ -118,5 +118,12 @@ feature "Hidden links" do
       click_link task.title
       assert_link_for "Edit Task"
     end
+
+    scenario "Delete task link is shown to admins" do
+      task
+      visit project_path(project)
+      click_link task.title
+      assert_link_for "Delete Task"
+    end
   end
 end
