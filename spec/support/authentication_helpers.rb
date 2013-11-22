@@ -1,4 +1,8 @@
 module AuthenticationHelpers
+  def sign_in(user)
+    session[:user_id] = user.id
+  end
+
   def sign_in_as!(user)
     visit '/signin'
     fill_in 'Name', with: user.name
@@ -16,14 +20,4 @@ end
 
 RSpec.configure do |config|
   config.include AuthenticationHelpers
-end
-
-module AuthHelpers
-  def sign_in(user)
-    session[:user_id] = user.id
-  end
-end
-
-RSpec.configure do |config|
-  config.include AuthHelpers, type: :controller
 end

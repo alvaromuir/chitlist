@@ -1,5 +1,3 @@
-
-
 module CapybaraHelpers
   def assert_no_link_for(text)
     expect(page).to_not(have_css("a", :text => text),
