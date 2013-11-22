@@ -10,6 +10,7 @@ feature "Editing tasks" do
 
   before do
     define_permission!(user, "view", project)
+    define_permission!(user, "edit tasks", project)
     sign_in_as!(user)
     visit '/'
     click_link project.name

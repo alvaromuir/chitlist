@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   before_action :set_project
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authorize_create!, only: [:new, :create]
+  before_action :authorize_update!, only: [:edit, :update]
   
   def new
     @task = @project.tasks.build
@@ -68,4 +69,10 @@ class TasksController < ApplicationController
       end
     end
 
+    def authorize_update!
+      if !current_user.admin? && cannot?("edit tasks".to_sym, @project)
+        flash[:alert] = "You cannot edit tasks on this project."
+        redirect_to @project
+      end
+    end
 end
