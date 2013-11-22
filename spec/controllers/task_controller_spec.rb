@@ -56,5 +56,13 @@ describe TasksController do
                       task: {} }
       cannot_update_tasks!
     end
+
+    it "cannot delete a task without permission" do
+      delete :destroy, { project_id: project.id, id: task.id }
+
+      expect(response).to redirect_to(project)
+      flash[:alert].should eql('You cannot delete tasks from this project.')
+    end
+
   end
 end

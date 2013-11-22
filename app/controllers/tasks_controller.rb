@@ -4,6 +4,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authorize_create!, only: [:new, :create]
   before_action :authorize_update!, only: [:edit, :update]
+  before_action :authorize_delete!, only: :destroy
   
   def new
     @task = @project.tasks.build
@@ -75,4 +76,12 @@ class TasksController < ApplicationController
         redirect_to @project
       end
     end
+
+    def authorize_delete!
+      if !current_user.admin? && cannot?(:"delete tasks", @project)
+        flash[:alert] = "You cannot delete tasks from this project."
+        redirect_to @project
+      end
+    end
+
 end
