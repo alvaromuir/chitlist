@@ -28,7 +28,7 @@ feature "Viewing tasks" do
 
   scenario "Viewing tasksfor a given project" do
     click_link 'Project 1'
-
+    
     expect(page).to have_content('Example Task 1')
 
     click_link 'Example Task 1'

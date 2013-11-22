@@ -10,7 +10,9 @@
   %>
 <% end %>
 
-<%= link_to "New Task", new_project_task_path(@project) %>
+<% authorized?(:"create tasks", @project) do %>
+  <%= link_to "New Task", new_project_task_path(@project) %>
+<% end %>
 
 <ul id='tasks'>
   <% @project.tasks.each do |task| %>
